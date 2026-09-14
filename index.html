@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#040506" />
+    <title>Case File 77-1023</title>
+    <meta name="description" content="An interactive 1970s investigation room — a CRT television and an evidence board." />
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Interactive 3D investigation room"></canvas>
+
+    <div id="loader" role="dialog" aria-live="polite">
+      <div class="loader-inner">
+        <p class="file">CASE FILE Nº 77-1023</p>
+        <p class="status" id="load-status">developing evidence…</p>
+        <div class="bar"><span id="load-bar"></span></div>
+        <button id="enter" type="button" hidden>step inside</button>
+        <p class="warn" id="load-note">sound on · headphones recommended</p>
+      </div>
+    </div>
+
+    <div id="subtitle" aria-live="polite"><span></span></div>
+    <p id="caption" aria-live="polite"></p>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

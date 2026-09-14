@@ -1,0 +1,130 @@
+:root {
+  --ink: #d8c9a3;
+  --ink-dim: rgba(216, 201, 163, 0.55);
+  --ground: #040506;
+  --type: 'Special Elite', 'Courier New', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--ground);
+  color: var(--ink);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: block;
+  touch-action: none;
+  outline: none;
+}
+
+body.pointer #scene { cursor: pointer; }
+
+/* ---------------------------------------------------------------- loader */
+#loader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-inline: 24px;
+  background: radial-gradient(ellipse at 50% 45%, #0d0f11 0%, #040506 70%);
+  font-family: var(--type);
+  z-index: 10;
+  transition: opacity 1.6s ease, visibility 0s linear 1.6s;
+}
+#loader.gone { opacity: 0; visibility: hidden; }
+
+.loader-inner { text-align: center; max-width: 30rem; }
+.file { font-size: clamp(1.1rem, 3.4vw, 1.6rem); letter-spacing: 0.28em; margin: 0 0 1.2rem; }
+.status { font-size: 0.9rem; color: var(--ink-dim); margin: 0 0 0.9rem; min-height: 1.2em; }
+.warn { font-size: 0.72rem; color: rgba(216, 201, 163, 0.32); margin-top: 1.6rem; letter-spacing: 0.08em; }
+
+.bar { width: min(16rem, 70vw); height: 1px; margin: 0 auto; background: rgba(216, 201, 163, 0.15); }
+.bar span { display: block; height: 100%; width: 0; background: var(--ink); transition: width 0.3s ease; }
+
+#enter {
+  margin-top: 1.4rem;
+  font: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid rgba(216, 201, 163, 0.35);
+  padding: 0.8rem 1.6rem;
+  cursor: pointer;
+  animation: breathe 2.8s ease-in-out infinite;
+}
+#enter:hover, #enter:focus-visible { border-color: var(--ink); outline: none; background: rgba(216, 201, 163, 0.06); }
+
+@keyframes breathe { 50% { opacity: 0.55; } }
+
+/* ---------------------------------------------------------------- caption */
+#caption {
+  position: fixed;
+  left: max(20px, env(safe-area-inset-left));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  margin: 0;
+  max-width: calc(100vw - 40px);
+  font-family: var(--type);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: rgba(216, 201, 163, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  z-index: 5;
+  text-shadow: 0 0 8px #000;
+}
+#caption.show { opacity: 1; }
+
+/* ---------------------------------------------------------------- subtitles */
+/* pop-up captions for the TV programme, pinned just under the screen */
+#subtitle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  max-width: min(96vw, 76rem);
+  pointer-events: none;
+  z-index: 4;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+#subtitle.show { opacity: 1; }
+#subtitle span {
+  display: inline-block;
+  white-space: pre-line;
+  padding: 0.32em 0.8em 0.38em;
+  border-radius: 4px;
+  background: rgba(6, 7, 9, 0.62);
+  color: #fbf8f0;
+  font: 600 clamp(1.35rem, 3.8vw, 2.8rem) / 1.25 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  text-wrap: balance;
+  letter-spacing: 0.01em;
+  text-shadow: 0 0 2px #000, 0 1px 3px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+#subtitle.near span { font-size: clamp(1.5rem, 5.2vw, 3.6rem); }
+#subtitle.pop span { animation: sub-pop 0.26s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+
+@keyframes sub-pop {
+  from { transform: translateY(6px) scale(0.92); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #enter { animation: none; }
+  #subtitle.pop span { animation: none; }
+}
